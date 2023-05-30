@@ -1,21 +1,12 @@
 import { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  Image,
-  Alert,
-} from "react-native";
-import { Stack, useRouter } from "expo-router";
+import { SafeAreaView, ScrollView, View } from "react-native";
 
-import { collection, addDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "../firebase";
 
-import { COLORS, icons } from "../constants";
+import { COLORS, defaultCompany, defaults, icons } from "../constants";
 import {
-  ScreenHeaderBtn,
   LeftMenu,
   AcademicInstitution,
   User,
@@ -23,15 +14,18 @@ import {
   UserHeader,
   MainSelector,
   ScreenStack,
-  ImagePickerComponent,
   UserFooter,
+  CompanyAccount,
+  Modal,
 } from "../components";
+import { useRouter } from "expo-router";
+
 const AccountSetting = () => {
+  const router = useRouter();
   const [infoInput, setInfoInput] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   const onUserDataInputed = (userDataInput) => {
-    // console.log(userDataInput);
     setInfoInput((prevState) => {
       return {
         // ...prevState,
@@ -40,30 +34,49 @@ const AccountSetting = () => {
       };
     });
   };
+  const [errorConnection, setErrorConnection] = useState([]);
+  const [errorCompletion, setErrorCompletion] = useState([]);
 
   const pushUser = async (user) => {
     const userKeys = Object.keys(user);
     let completion = true;
-    userKeys.forEach((key, i) => {
-      console.log(user[key]);
-      user[key] == "" || user[key] == null || user[key] == ""
-        ? (completion = false)
-        : null;
-    });
+    // user["imagesArray"][0] ?? defaults[user.type + "Default"];
+    // userKeys.forEach((key, i) => {
+    //   console.log(key);
+    //   user[key] == "" ? (completion = false) : null;
+    //   console.log(user[key] == "");
+    // });
     if (completion) {
       try {
-        const collectionRef = collection(db, user.type.toLowerCase());
-        const docRef = await addDoc(collectionRef, user);
+        //creating the user-account
+        const { email, password } = user;
+
+        const auth = getAuth();
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const firebaseUser = userCredential.user;
+        console.log("User account created:", firebaseUser.uid);
+
+        //pushing the user profile with all other releveant information in the FireStore with a shared ID between Authentication and FireStore
+        const docRef = doc(db, user.type.toLowerCase(), firebaseUser.uid);
+        const document = setDoc(docRef, user);
         console.log("Document written with ID: ", docRef.id);
         setLoggedIn(true);
       } catch (error) {
         console.error("Error adding document: ", error);
-        Alert.alert(
-          `There was some error, please report this error code to our team [ERROR:${error}]`
-        );
+        setErrorConnection([
+          true,
+          `Error in Connection or in User Account Creation: ${error}`,
+        ]);
       }
     } else {
-      Alert.alert("Complete all the neccessary fields");
+      setErrorCompletion([
+        true,
+        `Complete all the neccessary fields before proceeding!`,
+      ]);
     }
   };
 
@@ -88,39 +101,64 @@ const AccountSetting = () => {
       />
 
       <ScrollView>
-        <UserHeader
-          welcomeMessage={
-            " Be Part of the Network of thousands of aspiring individuals in search oftheir next oppperturnity!"
-          }
-          title={"Create Your Account Today!"}
-        />
         {!loggedIn ? (
           <View>
-            <MainSelector
-              onChangeValue={(value) => {
-                onChangeDropDownHandler(value);
-                onUserDataInputed(value);
-              }}
-            >
-              <View>
-                {dropDownChoice == "User" ? (
-                  <User onInput={onUserDataInputed} />
-                ) : dropDownChoice == "Institution" ? (
-                  <Institution />
-                ) : dropDownChoice == "Academic Institution" ? (
-                  <AcademicInstitution />
-                ) : dropDownChoice == "Company" ? (
-                  <View>
-                    <Text>Company</Text>
-                  </View>
-                ) : null}
-              </View>
-            </MainSelector>
-            <UserFooter title={"Log In instead"} />
+            <UserHeader
+              welcomeMessage={
+                " Be Part of the Network of thousands of aspiring individuals in search oftheir next oppperturnity!"
+              }
+              title={"Create Your Account Today!"}
+            />
+            <View>
+              <MainSelector
+                onChangeValue={(value) => {
+                  onChangeDropDownHandler(value);
+                  onUserDataInputed(value);
+                }}
+              >
+                <View>
+                  {dropDownChoice == "User" ? (
+                    <User onInput={onUserDataInputed} />
+                  ) : dropDownChoice == "Institution" ? (
+                    <Institution onInput={onUserDataInputed} />
+                  ) : dropDownChoice == "Academic Institution" ? (
+                    <AcademicInstitution onInput={onUserDataInputed} />
+                  ) : dropDownChoice == "Company" ? (
+                    <View>
+                      <CompanyAccount onInput={onUserDataInputed} />
+                    </View>
+                  ) : null}
+                </View>
+              </MainSelector>
+              <UserFooter
+                title={"Log In instead"}
+                onClick={() => {
+                  router.push("logIn");
+                }}
+              />
+            </View>
           </View>
         ) : null}
       </ScrollView>
       <LeftMenu isOpen={isMenuOpen} />
+      {errorCompletion[0] ? (
+        <Modal
+          content={errorCompletion[1]}
+          title={"Careful!"}
+          onOkay={() => {
+            setErrorCompletion([false, ""]);
+          }}
+        />
+      ) : null}
+      {errorConnection[0] ? (
+        <Modal
+          content={errorConnection[1]}
+          title={"ERROR"}
+          onOkay={() => {
+            setErrorConnection([false, ""]);
+          }}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };

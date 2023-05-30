@@ -3,14 +3,7 @@ import { COLORS, SIZES, FONT } from "../../../constants";
 
 const styles = StyleSheet.create({
   container: {
-    // width: "100%",
     padding: "5%",
-    // display: "flex",
-    // flexDirection: "row",
-    // gap: "",
-    // justifyContent: "space-between",
-    // flexShrink: true,
-    // flexWrap: "wrap",
   },
   cardContainer: {
     width: "100%",
@@ -19,16 +12,12 @@ const styles = StyleSheet.create({
     padding: "3%",
     position: "relative",
     marginTop: 10,
-    // height: "auto",
-    // height: 2000,
-    // height: "100%",
   },
   imageContainer: {
     width: "100%",
   },
   image: {
     width: "100%",
-    // height: 250,
     aspectRatio: 1 / 1,
     borderRadius: 8,
   },
@@ -75,11 +64,21 @@ const styles = StyleSheet.create({
     top: 20,
     left: 20,
     zIndex: 2,
-    // right: "-3%",
   },
   icon: {
     width: 28,
     height: 28,
+  },
+  employeesText: {
+    fontFamily: FONT.regular,
+    fontSize: SIZES.medium,
+    color: COLORS.secondary,
+  },
+  employeesSubText: {
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    color: COLORS.gray,
+    marginBottom: 10,
   },
 });
 export default styles;

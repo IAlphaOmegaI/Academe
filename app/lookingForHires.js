@@ -43,7 +43,7 @@ const lookingForHires = (props) => {
           title={"Find your next employee!"}
         />
         <View>
-          <UserContainer />
+          <UserContainer request="user" />
         </View>
       </ScrollView>
       <LeftMenu isOpen={isMenuOpen} />

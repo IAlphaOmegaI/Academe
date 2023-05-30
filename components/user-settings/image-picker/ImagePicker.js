@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  FlatList,
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -51,7 +50,8 @@ export default function ImagePickerComponent(props) {
       quality: 1,
     });
     if (!result.canceled) {
-      const imageUrl = await uploadImage(result.uri);
+      // console.log(result.uri, );
+      const imageUrl = await uploadImage(result.assets[0]["uri"]);
       setImages((prevImages) => [...prevImages, imageUrl]);
     }
   };
@@ -69,7 +69,10 @@ export default function ImagePickerComponent(props) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={pickImage}>
-        <Text style={styles.labelFirst}>Pick a Profile Picture</Text>
+        <Text style={styles.labelFirst}>Pick your Best Looking Pictures</Text>
+        <Text style={styles.underTitle}>
+          The first one you choose will your general Profile Picture
+        </Text>
       </TouchableOpacity>
       <View style={styles.imageContainer}>
         {images.length > 0 && (
@@ -79,22 +82,21 @@ export default function ImagePickerComponent(props) {
             style={styles.firstImage}
           />
         )}
-        {images.length > 0 && (
-          <FlatList
-            data={images}
-            style={styles.subImagesContainer}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  pressImagesHandler(index);
-                }}
-                key={index}
-              >
-                <Image source={{ uri: item }} style={styles.image} />
-              </TouchableOpacity>
-            )}
-          />
-        )}
+        <View
+          style={styles.subImagesContainer}
+          contentContainerStyle={styles.subImagesContainer}
+        >
+          {images.map((image, index) => (
+            <TouchableOpacity
+              onPress={() => {
+                pressImagesHandler(index);
+              }}
+              key={index}
+            >
+              <Image source={{ uri: image }} style={styles.image} />
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </View>
   );

@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+
 import { db } from "../../../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import styles from "./UserContainer.style";
-import { images, icons } from "../../../constants";
 
-const UserContainer = () => {
+import UserCard from "../user-card/UserCard";
+import CompanyCard from "../company-card/CompanyCard";
+import UserSlider from "../user-slider/UserSlider";
+
+import styles from "./UserContainer.style";
+
+const UserContainer = (props) => {
   const [usersData, setUsersData] = useState([]);
-  const [likedUsers, setLikedUsers] = useState([]);
 
   const getUsers = async () => {
     try {
-      const userCollection = collection(db, "user");
+      const userCollection = collection(db, props.request);
       const snapshot = await getDocs(userCollection);
       const users = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setUsersData(users);
@@ -24,57 +28,27 @@ const UserContainer = () => {
     getUsers();
   }, []);
 
-  const handleLike = (userId) => {
-    setLikedUsers((prevLikedUsers) => {
-      if (prevLikedUsers.includes(userId)) {
-        return prevLikedUsers.filter((id) => id !== userId);
-      } else {
-        return [...prevLikedUsers, userId];
-      }
-    });
-  };
-
   return (
     <View style={styles.container}>
-      {usersData.map((user, index) => {
-        const isLiked = likedUsers.includes(user.id);
-
-        return (
-          <View style={styles.cardContainer} key={user.id}>
-            <TouchableOpacity
-              style={styles.like}
-              onPress={() => handleLike(user.id)}
-            >
-              <Image
-                source={isLiked ? icons.heart : icons.heartOutline}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={{
-                    uri: user.imagesArray[0],
-                  }}
-                  style={styles.image}
-                />
-              </View>
-              <Text style={styles.userName}>{user.name}</Text>
-              <View style={styles.nameContainer}>
-                <Text style={styles.smallText}>{user.education}</Text>
-                <Text style={styles.smallText}>{user.age}</Text>
-              </View>
-              <View style={styles.descContainer}>
-                <Text style={styles.description}>
-                  {user.description.length > 200
-                    ? user.description.slice(0, 200) + "..."
-                    : user.description}
-                </Text>
-              </View>
-            </TouchableOpacity>
+      {props.request === "user" ? (
+        <View>
+          <View style={styles.employees}>
+            <Text style={styles.employeesText}>Employees of the Month!</Text>
+            <Text style={styles.employeesSubText}>
+              Get to know the Employees of{" "}
+              {new Date().toLocaleDateString("default", { month: "long" })}
+            </Text>
+            <UserSlider data={usersData.slice(0, 3)} />
           </View>
-        );
-      })}
+          {usersData.reverse().map((user, index) => (
+            <UserCard key={user.id} user={user} />
+          ))}
+        </View>
+      ) : props.request === "company" ? (
+        usersData.map((company, index) => (
+          <CompanyCard company={company} key={company.id} />
+        ))
+      ) : null}
     </View>
   );
 };

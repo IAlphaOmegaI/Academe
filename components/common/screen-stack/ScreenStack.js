@@ -6,6 +6,7 @@ import ScreenHeaderBtn from "../header/ScreenHeaderBtn";
 const ScreenStack = (props) => {
   return (
     <Stack.Screen
+      style={{ maxHeight: 50 }}
       options={{
         headerStyle: { backgroundColor: COLORS.lightWhite },
         headerShadowVisible: false,

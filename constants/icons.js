@@ -17,7 +17,25 @@ import apply from "../assets/icons/apply.png";
 import user from "../assets/icons/user.png";
 import company from "../assets/icons/company.png";
 import finish from "../assets/icons/finish.png";
+import plus from "../assets/icons/plus.png";
+import logOut from "../assets/icons/logout.png";
+
+import reddit from "../assets/icons/reddit.png";
+import dzone from "../assets/icons/dzone.png";
+import trello from "../assets/icons/trello.png";
+import github from "../assets/icons/github.png";
+import linkedin from "../assets/icons/linkedin.png";
+import slack from "../assets/icons/slack.png";
+import quora from "../assets/icons/quora.png";
+
 export default {
+  quora,
+  reddit,
+  dzone,
+  trello,
+  github,
+  linkedin,
+  slack,
   home,
   institutions,
   work,
@@ -28,6 +46,7 @@ export default {
   menu,
   search,
   filter,
+  logOut,
   left,
   heartOutline,
   share,
@@ -37,4 +56,5 @@ export default {
   user,
   company,
   finish,
+  plus,
 };

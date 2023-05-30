@@ -4,7 +4,7 @@ import styles from "./UserFooter.style";
 
 const UserHeader = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={props.onClick}>
       <View style={styles.container}>
         <Text style={styles.userName}>{props.title}</Text>
         {/* <Text style={styles.welcomeMessage}>{props.welcomeMessage}</Text> */}

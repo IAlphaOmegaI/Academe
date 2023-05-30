@@ -8,11 +8,8 @@ export default StyleSheet.create({
   },
   firstImage: {
     width: "70%",
-    // aspectRatio: 1 / 1,
     height: 252,
     borderRadius: 8,
-    marginVertical: SIZES.small,
-    marginHorizontal: "2.5%",
   },
   labelFirst: {
     fontFamily: FONT.medium,
@@ -27,20 +24,30 @@ export default StyleSheet.create({
   imageContainer: {
     width: "100%",
     flexDirection: "row",
+    borderColor: COLORS.gray,
+    borderWidth: 2,
+    borderRadius: 8,
+    paddingHorizontal: "2.5%",
+    paddingVertical: SIZES.small,
+    gap: 5,
   },
   subImagesContainer: {
     width: "25%",
     flexGrow: 1,
-    gap: 5,
-    paddingVertical: SIZES.small,
     height: 262,
-    flex: 1,
+    height: 252,
+    paddingHorizontal: "2%",
+    justifyContent: "space-between",
   },
   image: {
-    width: "100%",
+    width: "98%",
     aspectRatio: 1 / 1,
     borderRadius: 8,
+  },
+  underTitle: {
+    fontSize: SIZES.small,
+    color: COLORS.gray,
+    fontFamily: FONT.regular,
     marginBottom: 5,
-    height: 80, // Set a height for images inside FlatList
   },
 });

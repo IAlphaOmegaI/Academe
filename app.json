@@ -4,8 +4,8 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "jobsift",
-    "slug": "jobsift",
+    "name": "Academe",
+    "slug": "Academe",
     "android": {
       "permissions": [
         "CAMERA",

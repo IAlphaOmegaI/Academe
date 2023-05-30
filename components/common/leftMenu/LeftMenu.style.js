@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 import { COLORS, SIZING, FONT } from "../../../constants";
 
@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     top: 0,
-    height: "100%",
+    height: Dimensions.get("window").height - 50,
     width: "80%",
     backgroundColor: COLORS.white,
     justifyContent: "space-between",

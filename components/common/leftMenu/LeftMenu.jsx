@@ -52,11 +52,16 @@ const LeftMenu = ({ isOpen }) => {
           <Image source={icons.academics} style={styles.listItemIcon} />
           <Text style={styles.listItemText}>Academics</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        {/* <TouchableOpacity style={styles.listItem}>
           <Image source={icons.work} style={styles.listItemIcon} />
           <Text style={styles.listItemText}>Jobs</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => {
+            router.push("schools");
+          }}
+        >
           <Image source={icons.apply} style={styles.listItemIcon} />
           <Text style={styles.listItemText}>Apply</Text>
         </TouchableOpacity>

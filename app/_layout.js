@@ -1,5 +1,8 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import LogInScreen from "./logIn";
+import Home from "./home";
+import { UserProvider } from "../context";
 // import * as SplashScreen from "expo-splash-screen";
 
 // SplashScreen.preventAutoHideAsync();
@@ -24,7 +27,7 @@ const Layout = () => {
     <Stack initialRouteName="home">
       <Stack.Screen name="home" />
     </Stack>
-  )
+  );
 };
 
 export default Layout;

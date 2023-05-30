@@ -2,6 +2,7 @@ import { Text, Image, View, TextInput } from "react-native";
 import { useState } from "react";
 
 import ImagePickerComponent from "../image-picker/ImagePicker";
+import PDFPicker from "../../common/PDF-picker/PDFPicker";
 
 import DropDownPicker from "react-native-dropdown-picker";
 import styles from "./User.style";
@@ -33,6 +34,7 @@ const User = (props) => {
   ]);
 
   const [userData, setUserData] = useState({
+    // id:"",
     name: "",
     age: "",
     email: "",
@@ -105,6 +107,7 @@ const User = (props) => {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Choose a strong Password:</Text>
         <TextInput
+          secureTextEntry={true}
           onChangeText={(value) => {
             onInputHandler("password", value);
           }}
@@ -113,10 +116,16 @@ const User = (props) => {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Give a Description of You:</Text>
         <TextInput
+          style={{
+            height: 200,
+            textAlignVertical: "top",
+          }}
+          multiline={true}
           onChangeText={(value) => {
             onInputHandler("description", value);
           }}
         />
+        {/* <PDFPicker /> */}
       </View>
     </View>
   );
