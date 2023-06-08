@@ -1,7 +1,7 @@
 import { Text, View, TouchableOpacity, Image } from "react-native";
 import styles from "./CompanyCard.style";
 // import { useState } from "react";
-
+import { useRouter } from "expo-router";
 import {
   defaultCompany,
   defaultProfilePicture,
@@ -9,6 +9,7 @@ import {
 } from "../../../constants";
 
 const CompanyCard = ({ company }) => {
+  const router = useRouter();
   //   const [likedUsers, setLikedUsers] = useState([]);
   //   const isLiked = likedUsers.includes(user.id);
   //   const handleLike = (userId) => {
@@ -30,7 +31,7 @@ const CompanyCard = ({ company }) => {
       </TouchableOpacity> */}
       <TouchableOpacity
         onPress={() => {
-          useRouter.push(`/company-account/${company.id}`);
+          useRouter.push(`/companies/${company.id}`);
         }}
       >
         <View style={styles.imageContainer}>

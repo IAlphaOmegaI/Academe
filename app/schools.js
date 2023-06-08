@@ -94,7 +94,7 @@ const lookingForHires = (props) => {
               style={styles.FlatList}
             />
           </View>
-          <UserContainer request="academicinstitution" />
+          <UserContainer request="company" />
         </View>
       </ScrollView>
       <LeftMenu isOpen={isMenuOpen} />
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.small,
     borderRadius: SIZES.medium,
     borderWidth: 1,
-    borderColor: activeJobType === item ? COLORS.secondary : COLORS.gray2,
   }),
   tabText: (activeJobType, item) => ({
     fontFamily: FONT.medium,

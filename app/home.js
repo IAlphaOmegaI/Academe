@@ -6,7 +6,7 @@ import {
   Animated,
   Touchable,
 } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRouter, useEffect } from "expo-router";
 
 import { COLORS, icons, images, SIZES } from "../constants";
 import {
@@ -34,20 +34,21 @@ const Home = () => {
   };
   const [loggedInUserData, setloggedInUserData] = useState();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const docRef = doc(db, ,loggedInUserData.uid);
-        //..
-        // console.log(db.lis);
-        //..
-        const userData = await getDoc(docRef);
-        setloggedInUserData(userData.data());
-      } catch (error) {
-        console.error("Error retrieving User Data: ", error);
-      }
-    };
-  });
+  // useEffect(() => {
+  // const fetchUserData = async () => {
+  //   try {
+  //     // const docRef = doc(db, "user");
+  //     //..
+  //     // console.log(db.lis);
+  //     //..
+  //     // const userData = await getDoc(docRef);
+  //     // setloggedInUserData(userData.data());
+  //   } catch (error) {
+  //     console.error("Error retrieving User Data: ", error);
+  //   }
+  // };
+  // fetchUserData();
+  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -77,8 +78,8 @@ const Home = () => {
             }}
           />
 
-          {/* <Popularjobs /> */}
-          {/* <Nearbyjobs /> */}
+          <Popularjobs />
+          <Nearbyjobs />
         </View>
       </ScrollView>
       <LeftMenu isOpen={isMenuOpen} />

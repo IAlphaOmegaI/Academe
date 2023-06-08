@@ -40,7 +40,8 @@ const AccountSetting = () => {
   const pushUser = async (user) => {
     const userKeys = Object.keys(user);
     let completion = true;
-    // user["imagesArray"][0] ?? defaults[user.type + "Default"];
+    user["imagesArray"][0] ?? defaults[user.type + "Default"];
+
     // userKeys.forEach((key, i) => {
     //   console.log(key);
     //   user[key] == "" ? (completion = false) : null;
@@ -61,7 +62,11 @@ const AccountSetting = () => {
         console.log("User account created:", firebaseUser.uid);
 
         //pushing the user profile with all other releveant information in the FireStore with a shared ID between Authentication and FireStore
-        const docRef = doc(db, user.type.toLowerCase(), firebaseUser.uid);
+        const docRef = doc(
+          db,
+          user.type.toLowerCase().replace(" ", ""),
+          firebaseUser.uid
+        );
         const document = setDoc(docRef, user);
         console.log("Document written with ID: ", docRef.id);
         setLoggedIn(true);

@@ -63,15 +63,12 @@ const NewPost = () => {
           horizontal
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.tab(activeLink === item)}
               onPress={() => {
                 setActiveLink(item);
               }}
+              style={styles.tab(activeLink, item)}
             >
-              <Image
-                source={item}
-                style={styles.tabImage(activeLink === item)}
-              />
+              <Image source={item} style={styles.tabImage(activeLink, item)} />
             </TouchableOpacity>
           )}
           keyExtractor={(item, index) => index.toString()}

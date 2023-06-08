@@ -18,6 +18,7 @@ const AcademicInstitution = (props) => {
     phoneNumber: "",
     studyFields: [],
     description: "",
+    password: "",
   });
   const onInputHandler = (target, value) => {
     setAcademicData((prevSnap) => {
@@ -51,6 +52,14 @@ const AcademicInstitution = (props) => {
         <TextInput
           onChangeText={(value) => {
             onInputHandler("email", value);
+          }}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Account Password:</Text>
+        <TextInput
+          onChangeText={(value) => {
+            onInputHandler("password", value);
           }}
         />
       </View>

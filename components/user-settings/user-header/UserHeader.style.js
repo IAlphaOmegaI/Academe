@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     // boxSizing: "border-box",
     justifyContent: "space-between",
     textAlign: "center",
-    marginHorizontal: SIZES.small,
+    // marginHorizontal: SIZES.small,
   },
   userName: {
     fontFamily: FONT.bold,
